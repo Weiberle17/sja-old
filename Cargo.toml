@@ -1,12 +1,19 @@
 [package]
 name = "sja"
+authors = ["Weiberle17"]
 version = "0.1.0"
+description = "Backend for SJA webapp"
 edition = "2021"
+rust-version = "1.74"
+license = "MIT"
 
 [dependencies]
+anyhow = "1.0.86"
 axum = "0.7.5"
 dotenvy = "0.15.7"
 serde = "1.0.204"
-serde_json = "1.0.120"
-sqlx = "0.8.0"
-tokio = "1.39.2"
+sqlx = { version = "0.8.0", features = [ "postgres", "runtime-tokio", "uuid", "chrono", "json" ] }
+tokio = { version = "1.39.2", features = [ "full" ] }
+
+[profile.dev.package.sqlx-macros]
+opt-level = 3
