@@ -10,10 +10,12 @@ license = "MIT"
 [dependencies]
 anyhow = "1.0.86"
 axum = "0.7.5"
+chrono = { version = "0.4.38", features = [ "serde" ] }
 dotenvy = "0.15.7"
-serde = "1.0.204"
+serde = { version = "1.0.204", features = [ "derive" ] }
 sqlx = { version = "0.8.0", features = [ "postgres", "runtime-tokio", "uuid", "chrono", "json" ] }
 tokio = { version = "1.39.2", features = [ "full" ] }
+uuid = { version = "1.10.0", features = ["serde"] }
 
 [profile.dev.package.sqlx-macros]
 opt-level = 3
