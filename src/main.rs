@@ -1,7 +1,5 @@
-mod router;
-mod structs;
-
 use anyhow::Context;
+use sja::router;
 use std::env;
 
 #[tokio::main]
