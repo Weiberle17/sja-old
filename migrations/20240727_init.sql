@@ -37,9 +37,9 @@ CREATE TABLE angebot (
   angebot_id UUID PRIMARY KEY,
   angebot_name VARCHAR(255) NOT NULL,
   beschreibung VARCHAR(500),
-  organisation_id UUID,
-  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  last_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  organisation_id UUID NOT NULL,
+  created TIMESTAMPTZ(10) NOT NULL,
+  last_modified TIMESTAMPTZ(10) NOT NULL,
   FOREIGN KEY (organisation_id) REFERENCES organisation(organisation_id)
 );
 
