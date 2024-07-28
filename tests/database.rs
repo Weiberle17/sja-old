@@ -6,7 +6,7 @@ use std::env;
 use uuid::Uuid;
 
 #[test]
-fn env() {
+fn database_env() {
     dotenvy::from_path_override("./.env.test").unwrap();
     assert_eq!(
         env::var("DATABASE_URL").unwrap(),
@@ -15,7 +15,7 @@ fn env() {
 }
 
 #[sqlx::test(migrations = "./migrations")]
-async fn migration(pool: PgPool) -> sqlx::Result<()> {
+async fn database_migration(pool: PgPool) -> sqlx::Result<()> {
     let expected_tables = [
         String::from("organisation"),
         String::from("angebot"),
@@ -43,7 +43,7 @@ async fn migration(pool: PgPool) -> sqlx::Result<()> {
 }
 
 #[sqlx::test]
-async fn organisation(pool: PgPool) -> sqlx::Result<()> {
+async fn database_organisation(pool: PgPool) -> sqlx::Result<()> {
     let orga: Organisation = Organisation {
         organisation_id: Uuid::new_v4(),
         organisation_name: String::from("Test Organisation"),
@@ -67,7 +67,7 @@ async fn organisation(pool: PgPool) -> sqlx::Result<()> {
 }
 
 #[sqlx::test]
-async fn angebot(pool: PgPool) -> sqlx::Result<()> {
+async fn database_angebot(pool: PgPool) -> sqlx::Result<()> {
     let orga: Organisation = Organisation {
         organisation_id: Uuid::new_v4(),
         organisation_name: String::from("Test Organisation"),
