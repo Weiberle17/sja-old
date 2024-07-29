@@ -1,6 +1,10 @@
 use crate::database::structs::{Angebot, Ansprechpartner, Organisation};
 use anyhow::Context;
-use axum::{http::StatusCode, response::IntoResponse, Extension, Json};
+use axum::{
+    http::{StatusCode, Uri},
+    response::IntoResponse,
+    Extension, Json,
+};
 use sqlx::{Pool, Postgres};
 
 pub async fn migrations(pool: &Pool<Postgres>) -> anyhow::Result<()> {
@@ -88,4 +92,8 @@ pub async fn get_ansprechpartner(Extension(pool): Extension<Pool<Postgres>>) -> 
     };
 
     (StatusCode::OK, Json(ansprechpartner)).into_response()
+}
+
+pub async fn default_response(uri: Uri) -> impl IntoResponse {
+    (StatusCode::NOT_FOUND, format!("No route for {}", uri))
 }
