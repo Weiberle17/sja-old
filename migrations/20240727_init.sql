@@ -70,3 +70,17 @@ CREATE TABLE apartner_tnummer(
   FOREIGN KEY (ansprech_partner_id) REFERENCES ansprech_partner(ansprech_partner_id),
   FOREIGN KEY (telefonnummer_id) REFERENCES telefonnummer(telefonnummer_id)
 );
+
+CREATE TABLE organisation_apartner(
+  organisation_id UUID,
+  ansprech_partner_id UUID,
+  FOREIGN KEY (organisation_id) REFERENCES organisation(organisation_id),
+  FOREIGN KEY (ansprech_partner_id) REFERENCES ansprech_partner(ansprech_partner_id)
+);
+
+CREATE TABLE organisation_adresse(
+  organisation_id UUID,
+  adresse_id UUID,
+  FOREIGN KEY (organisation_id) REFERENCES organisation(organisation_id),
+  FOREIGN KEY (adresse_id) REFERENCES adresse(adresse_id)
+);

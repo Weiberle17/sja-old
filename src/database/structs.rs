@@ -24,3 +24,10 @@ pub struct Organisation {
     pub organisation_id: Uuid,
     pub organisation_name: String,
 }
+
+#[derive(Debug, Serialize, Deserialize, FromRow)]
+pub struct Ansprechpartner {
+    pub ansprech_partner_id: Uuid,
+    pub nach_name: String,
+    pub vor_name: String,
+}

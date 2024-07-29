@@ -1,5 +1,4 @@
-use super::structs::Angebot;
-use crate::database::structs::Organisation;
+use crate::database::structs::{Angebot, Ansprechpartner, Organisation};
 use anyhow::Context;
 use axum::{http::StatusCode, response::IntoResponse, Extension, Json};
 use sqlx::{Pool, Postgres};
@@ -63,4 +62,30 @@ pub async fn get_organisationen(Extension(pool): Extension<Pool<Postgres>>) -> i
     };
 
     (StatusCode::OK, Json(organisationen)).into_response()
+}
+
+pub async fn get_ansprechpartner(Extension(pool): Extension<Pool<Postgres>>) -> impl IntoResponse {
+    let ansprechpartner = match sqlx::query_as!(
+        Ansprechpartner,
+        r#"
+        SELECT
+          *
+        FROM
+          ansprech_partner;
+        "#
+    )
+    .fetch_all(&pool)
+    .await
+    {
+        Ok(ansprechpartner) => ansprechpartner,
+        Err(e) => {
+            return (
+                StatusCode::INTERNAL_SERVER_ERROR,
+                format!("Error fetching all Ansprechpartner: {}", e),
+            )
+                .into_response()
+        }
+    };
+
+    (StatusCode::OK, Json(ansprechpartner)).into_response()
 }
