@@ -29,7 +29,6 @@ pub async fn setup_router(pool: Pool<Postgres>) -> Router {
             "/api/db/ansprechpartner",
             get(database::services::get_ansprechpartner),
         )
-        .fallback(database::services::default_response)
         .layer(Extension(pool))
         .layer(
             CorsLayer::new()
