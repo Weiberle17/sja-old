@@ -1,5 +1,5 @@
 use anyhow::Context;
-use sja::server::router;
+use sja::{database, server};
 use std::env;
 
 #[tokio::main]
@@ -12,13 +12,10 @@ async fn main() -> anyhow::Result<()> {
         .await
         .context("Database pool could not be created")?;
 
-    sqlx::migrate!("./migrations")
-        .run(&pool)
-        .await
-        .context("Error running the migrations")?;
+    database::services::migrations(&pool).await?;
 
-    let router = router::setup_router().await;
-    let listener = router::setup_listener(&server_url, &server_port).await?;
+    let router = server::router::setup_router(pool).await;
+    let listener = server::router::setup_listener(&server_url, &server_port).await?;
     axum::serve(listener, router)
         .await
         .context("Error serving backend")?;

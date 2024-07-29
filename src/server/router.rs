@@ -1,33 +1,29 @@
+use super::middle_ware;
+use crate::database;
 use anyhow::Context;
 use axum::{
-    body::Body,
-    extract::Request,
-    middleware::{self, Next},
-    response::Response,
+    middleware::{self},
     routing::get,
-    Router,
+    Extension, Router,
 };
-use chrono::{Local, SubsecRound};
+use sqlx::{Pool, Postgres};
 use tokio::net::TcpListener;
 
 pub async fn setup_listener(addr: &str, port: &str) -> anyhow::Result<TcpListener> {
     let listener_address = format!("{}:{}", addr, port);
     TcpListener::bind(listener_address)
         .await
-        .context("Error setting up TcpListener")
+        .context("error setting up tcplistener")
 }
 
-pub async fn setup_router() -> Router {
+pub async fn setup_router(pool: Pool<Postgres>) -> Router {
     Router::new()
-        .route("/", get(|| async { "SJA Angebotverwaltung" }))
-        .layer(middleware::from_fn(logging_middleware))
-}
-
-async fn logging_middleware(req: Request<Body>, next: Next) -> Response {
-    println!(
-        "Received a request to {} at: {}",
-        req.uri(),
-        Local::now().round_subsecs(6)
-    );
-    next.run(req).await
+        .route("/", get(|| async { "sja angebotverwaltung" }))
+        .route("/db/angebote", get(database::services::get_angebote))
+        .route(
+            "/db/organisationen",
+            get(database::services::get_organisationen),
+        )
+        .layer(Extension(pool))
+        .layer(middleware::from_fn(middle_ware::logging_middleware))
 }
