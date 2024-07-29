@@ -113,7 +113,7 @@ jobs:
     # https://docs.github.com/en/actions/learn-github-actions/contexts#context-availability
     strategy:
       matrix:
-        msrv: ["1.73"]
+        msrv: ["1.74"] # sqlx-core needs 1.74
     name: ubuntu / ${{ matrix.msrv }}
     steps:
       - uses: actions/checkout@v4
