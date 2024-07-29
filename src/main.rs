@@ -1,5 +1,5 @@
 use anyhow::Context;
-use sja::router;
+use sja::server::router;
 use std::env;
 
 #[tokio::main]

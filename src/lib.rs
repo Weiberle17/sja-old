@@ -1,2 +1,2 @@
-pub mod router;
-pub mod structs;
+pub mod database;
+pub mod server;

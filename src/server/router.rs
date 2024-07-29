@@ -7,7 +7,7 @@ use axum::{
     routing::get,
     Router,
 };
-use chrono::Local;
+use chrono::{Local, SubsecRound};
 use tokio::net::TcpListener;
 
 pub async fn setup_listener(addr: &str, port: &str) -> anyhow::Result<TcpListener> {
@@ -24,6 +24,10 @@ pub async fn setup_router() -> Router {
 }
 
 async fn logging_middleware(req: Request<Body>, next: Next) -> Response {
-    println!("Received a request to {} at: {}", req.uri(), Local::now());
+    println!(
+        "Received a request to {} at: {}",
+        req.uri(),
+        Local::now().round_subsecs(6)
+    );
     next.run(req).await
 }
