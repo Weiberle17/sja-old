@@ -12,8 +12,8 @@ CREATE TABLE organisation (
   organisation_name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE ansprech_partner (
-  ansprech_partner_id UUID PRIMARY KEY,
+CREATE TABLE ansprechpartner (
+  ansprechpartner_id UUID PRIMARY KEY,
   nach_name VARCHAR(255) NOT NULL,
   vor_name VARCHAR(255) NOT NULL
 );
@@ -30,7 +30,13 @@ CREATE TABLE telefonnummer (
   telefonnummer_id UUID PRIMARY KEY,
   land_vorwahl VARCHAR(5) NOT NULL,
   lokale_nummer VARCHAR(255) NOT NULL,
+  festnetz BOOLEAN NOT NULL,
   komplette_nummer VARCHAR(255) GENERATED ALWAYS AS (land_vorwahl || ' ' || lokale_nummer) STORED
+);
+
+CREATE TABLE link (
+  link_id UUID PRIMARY KEY,
+  link VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE angebot (
@@ -38,49 +44,70 @@ CREATE TABLE angebot (
   angebot_name VARCHAR(255) NOT NULL,
   beschreibung VARCHAR(500),
   organisation_id UUID NOT NULL,
-  created TIMESTAMPTZ(10) NOT NULL,
-  last_modified TIMESTAMPTZ(10) NOT NULL,
+  created TIMESTAMPTZ NOT NULL,
+  last_modified TIMESTAMPTZ NOT NULL,
   FOREIGN KEY (organisation_id) REFERENCES organisation(organisation_id)
 );
 
+CREATE TABLE sonstige (
+  sonstige_id UUID PRIMARY KEY,
+  text VARCHAR(255) NOT NULL,
+  angebot_id UUID NOT NULL,
+  FOREIGN KEY (angebot_id) REFERENCES angebot(angebot_id)
+);
+
 CREATE TABLE angebot_adresse (
-  angebot_id UUID,
-  adresse_id UUID,
+  angebot_id UUID NOT NULL,
+  adresse_id UUID NOT NULL,
   FOREIGN KEY (angebot_id) REFERENCES angebot(angebot_id),
   FOREIGN KEY (adresse_id) REFERENCES adresse(adresse_id)
 );
 
-CREATE TABLE angebot_apartner(
-  angebot_id UUID,
-  ansprech_partner_id UUID,
+CREATE TABLE angebot_apartner (
+  angebot_id UUID NOT NULL,
+  ansprechpartner_id UUID NOT NULL,
   FOREIGN KEY (angebot_id) REFERENCES angebot(angebot_id),
-  FOREIGN KEY (ansprech_partner_id) REFERENCES ansprech_partner(ansprech_partner_id)
+  FOREIGN KEY (ansprechpartner_id) REFERENCES ansprechpartner(ansprechpartner_id)
 );
 
-CREATE TABLE apartner_email(
-  ansprech_partner_id UUID,
-  email_id UUID,
-  FOREIGN KEY (ansprech_partner_id) REFERENCES ansprech_partner(ansprech_partner_id),
+CREATE TABLE angebot_link (
+  link_id UUID NOT NULL,
+  angebot_id UUID NOT NULL,
+  FOREIGN KEY (angebot_id) REFERENCES angebot(angebot_id),
+  FOREIGN KEY (link_id) REFERENCES link(link_id)
+);
+
+CREATE TABLE apartner_email (
+  ansprechpartner_id UUID NOT NULL,
+  email_id UUID NOT NULL,
+  FOREIGN KEY (ansprechpartner_id) REFERENCES ansprechpartner(ansprechpartner_id),
   FOREIGN KEY (email_id) REFERENCES email(email_id)
 );
 
-CREATE TABLE apartner_tnummer(
-  ansprech_partner_id UUID,
-  telefonnummer_id UUID,
-  FOREIGN KEY (ansprech_partner_id) REFERENCES ansprech_partner(ansprech_partner_id),
+CREATE TABLE apartner_tnummer (
+  ansprechpartner_id UUID NOT NULL,
+  telefonnummer_id UUID NOT NULL,
+  FOREIGN KEY (ansprechpartner_id) REFERENCES ansprechpartner(ansprechpartner_id),
   FOREIGN KEY (telefonnummer_id) REFERENCES telefonnummer(telefonnummer_id)
 );
 
-CREATE TABLE organisation_apartner(
-  organisation_id UUID,
-  ansprech_partner_id UUID,
+CREATE TABLE organisation_apartner (
+  organisation_id UUID NOT NULL,
+  ansprechpartner_id UUID NOT NULL,
   FOREIGN KEY (organisation_id) REFERENCES organisation(organisation_id),
-  FOREIGN KEY (ansprech_partner_id) REFERENCES ansprech_partner(ansprech_partner_id)
+  FOREIGN KEY (ansprechpartner_id) REFERENCES ansprechpartner(ansprechpartner_id)
 );
 
-CREATE TABLE organisation_adresse(
-  organisation_id UUID,
-  adresse_id UUID,
+CREATE TABLE organisation_adresse (
+  organisation_id UUID NOT NULL,
+  adresse_id UUID NOT NULL,
   FOREIGN KEY (organisation_id) REFERENCES organisation(organisation_id),
   FOREIGN KEY (adresse_id) REFERENCES adresse(adresse_id)
+);
+
+CREATE TABLE organisation_link (
+  organisation_id UUID NOT NULL,
+  link_id UUID NOT NULL,
+  FOREIGN KEY (organisation_id) REFERENCES organisation(organisation_id),
+  FOREIGN KEY (link_id) REFERENCES link(link_id)
 );
