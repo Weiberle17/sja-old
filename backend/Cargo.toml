@@ -1,5 +1,5 @@
 [package]
-name = "sja"
+name = "sja-backend"
 authors = ["Weiberle17"]
 version = "0.1.0-alpha"
 description = "Backend for SJA webapp"

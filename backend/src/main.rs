@@ -1,5 +1,5 @@
 use anyhow::Context;
-use sja::{database, server};
+use sja_backend::{database, server};
 use std::env;
 
 #[tokio::main]
