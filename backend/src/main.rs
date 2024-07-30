@@ -12,7 +12,7 @@ async fn main() -> anyhow::Result<()> {
         .await
         .context("Database pool could not be created")?;
 
-    database::services::migrations(&pool).await?;
+    database::controller::migrations(&pool).await?;
 
     let router = server::router::setup_router(pool).await;
     let listener = server::router::setup_listener(&server_url, &server_port).await?;
