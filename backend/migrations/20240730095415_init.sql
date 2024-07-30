@@ -49,8 +49,8 @@ CREATE TABLE angebot (
   FOREIGN KEY (organisation_id) REFERENCES organisation(organisation_id)
 );
 
-CREATE TABLE sonstige (
-  sonstige_id UUID PRIMARY KEY,
+CREATE TABLE sonstiges (
+  sonstiges_id UUID PRIMARY KEY,
   text VARCHAR(255) NOT NULL,
   angebot_id UUID NOT NULL,
   FOREIGN KEY (angebot_id) REFERENCES angebot(angebot_id)
