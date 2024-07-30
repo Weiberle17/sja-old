@@ -66,6 +66,7 @@ pub struct Angebot {
 #[derive(Debug, Serialize, Deserialize, FromRow)]
 pub struct JsonAngebot {
     pub angebot: Angebot,
+    pub organisation: JsonOrganisation,
     pub adressen: Vec<Adresse>,
     pub links: Vec<Link>,
     pub apartner: Vec<Ansprechpartner>,
