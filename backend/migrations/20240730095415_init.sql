@@ -43,6 +43,7 @@ CREATE TABLE angebot (
   angebot_id UUID PRIMARY KEY,
   angebot_name VARCHAR(255) NOT NULL,
   beschreibung VARCHAR(500),
+  kategorie VARCHAR(255) NOT NULL,
   organisation_id UUID NOT NULL,
   created TIMESTAMPTZ NOT NULL,
   last_modified TIMESTAMPTZ NOT NULL,

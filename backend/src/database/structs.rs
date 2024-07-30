@@ -57,6 +57,7 @@ pub struct Angebot {
     pub angebot_id: Uuid,
     pub angebot_name: String,
     pub beschreibung: Option<String>,
+    pub kategorie: String,
     pub organisation_id: Uuid,
     pub created: DateTime<Local>,
     pub last_modified: DateTime<Local>,
