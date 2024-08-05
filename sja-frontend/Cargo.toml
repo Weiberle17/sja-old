@@ -1,0 +1,20 @@
+[package]
+name = "sja-frontend"
+authors = ["Weiberle17"]
+version = "0.1.0-alpha"
+description = "Frontend for SJA webapp"
+edition = "2021"
+rust-version = "1.74"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+sja-app = { path = "../sja-app", default-features = false, features = ["hydrate"] }
+leptos = { workspace = true, features = [ "hydrate" ] }
+
+console_error_panic_hook.workspace = true
+console_log.workspace = true
+log.workspace = true
+wasm-bindgen.workspace = true

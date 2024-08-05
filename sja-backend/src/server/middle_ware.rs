@@ -7,7 +7,7 @@ pub async fn logging_middleware(req: Request<Body>, next: Next) -> Response {
     println!("{}: Received a request to {}", &call_time, req_uri);
 
     let response = next.run(req).await;
-    println!(
+    log::info!(
         "{}: Response to {}: {}",
         &call_time,
         req_uri,

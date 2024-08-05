@@ -1,0 +1,23 @@
+[package]
+name = "sja-app"
+authors = ["Weiberle17"]
+version = "0.1.0-alpha"
+description = "App for SJA webapp"
+edition = "2021"
+rust-version = "1.74"
+license = "MIT"
+
+[dependencies]
+leptos.workspace = true
+leptos_meta.workspace = true
+leptos_router.workspace = true
+leptos_axum = { workspace = true, optional = true }
+
+http.workspace = true
+cfg-if.workspace = true
+thiserror.workspace = true
+
+[features]
+default = []
+hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate"]
+ssr = ["leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "dep:leptos_axum"]

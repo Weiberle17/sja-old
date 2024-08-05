@@ -1,25 +1,34 @@
-use super::middle_ware;
-use crate::database;
+use std::net::SocketAddr;
+
+use crate::{database, server::middle_ware};
 use anyhow::Context;
 use axum::{
     middleware::{self},
     routing::get,
     Router,
 };
+use leptos::LeptosOptions;
+use leptos_axum::LeptosRoutes;
+use sja_app;
 use sqlx::{Pool, Postgres};
 use tokio::net::TcpListener;
 use tower_http::cors::{Any, CorsLayer};
 
-pub async fn setup_listener(addr: &str, port: &str) -> anyhow::Result<TcpListener> {
-    let listener_address = format!("{}:{}", addr, port);
-    TcpListener::bind(listener_address)
+pub async fn setup_listener(addr: &SocketAddr) -> anyhow::Result<TcpListener> {
+    TcpListener::bind(addr)
         .await
         .context("Error setting up TcpListener")
 }
 
-pub async fn setup_router(pool: Pool<Postgres>) -> Router {
-    Router::new()
-        .route("/", get(|| async { "SJA Angebotverwaltung" }))
+pub async fn setup_router(
+    pool: Pool<Postgres>,
+    leptos_options: LeptosOptions,
+) -> anyhow::Result<Router> {
+    let app_routes = leptos_axum::generate_route_list(sja_app::App);
+
+    Ok(Router::new()
+        .leptos_routes(&leptos_options, app_routes, sja_app::App)
+        .with_state(leptos_options)
         .route("/api/db/angebote", get(database::controller::get_angebote))
         // .route(
         //     "/api/db/organisationen",
@@ -38,5 +47,5 @@ pub async fn setup_router(pool: Pool<Postgres>) -> Router {
                 .allow_headers(Any),
         )
         .layer(middleware::from_fn(middle_ware::logging_middleware))
-        .fallback(database::controller::fallback_handler)
+        .fallback(database::controller::fallback_handler))
 }
