@@ -73,6 +73,7 @@ jobs:
           submodules: true
       - name: Install nightly for -Zminimal-versions
         uses: dtolnay/rust-toolchain@nightly
+      - name: cargo update -Zminimal-versions
         run: cargo +nightly update -Zminimal-versions
       - name: cargo test
         run: cargo test --locked --all-targets
