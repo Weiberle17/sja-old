@@ -4,7 +4,7 @@ use std::env;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    simple_logger::init_with_level(log::Level::Debug).context("couldn't initialize logging")?;
+    simple_logger::init_with_level(log::Level::Debug).context("Couldn't initialize logging")?;
 
     dotenvy::dotenv().context("Error loading dotenv")?;
     let database_url: String = env::var("DATABASE_URL").context("DATABASE_URL should be set")?;
