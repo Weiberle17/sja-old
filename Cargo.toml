@@ -31,7 +31,7 @@ tokio = { version = "1.39.2", features = [ "full" ] }
 tower = { version = "0.4.13", features = ["full"] }
 tower-http = { version = "0.5", features = ["cors"] }
 uuid = { version = "1.10.0", features = [ "serde", "v4" ] }
-wasm-bindgen = "=0.2.92"
+wasm-bindgen = "=0.2.93"
 
 
 # See https://github.com/akesson/cargo-leptos for documentation of all the parameters.
