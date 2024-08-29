@@ -85,8 +85,6 @@ jobs:
           submodules: true
       - name: Install nightly
         uses: dtolnay/rust-toolchain@nightly
-      - name: cargo sqlx prepare
-        run: cargo sqlx prepare
       - name: cargo doc
         run: cargo doc --no-deps
         env:
