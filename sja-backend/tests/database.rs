@@ -1,5 +1,4 @@
-use ::chrono::SubsecRound;
-use sja::structs::{Angebot, Organisation};
+use sja_backend::database::structs::{Angebot, Organisation};
 use sqlx::types::chrono;
 use sqlx::PgPool;
 use std::env;
