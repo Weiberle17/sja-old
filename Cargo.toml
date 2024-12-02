@@ -12,7 +12,7 @@ opt-level = 'z'
 leptos = { version = "0.6", features = ["nightly"] }
 leptos_meta = { version = "0.6", features = ["nightly"] }
 leptos_router = { version = "0.6", features = ["nightly"] }
-leptos_axum = { version = "0.6" }
+leptos_axum = { version = "0.7" }
 
 anyhow = "1.0"
 axum = "0.7"
